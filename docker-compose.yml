@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  webserver:
+    build: ./Docker
+    image: nette_dev_web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nette-app:/var/www
+      - ./nette-app/www:/var/www/html
+    links:
+      - database
+
+  database:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+    ports: 
+      - "3306:3306"
+    environment:      
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
